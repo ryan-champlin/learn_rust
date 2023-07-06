@@ -31,7 +31,24 @@ fn main() {
     slices();
     slices2();
 
+    vector();
 
+    vector_slice();
+
+    iterator();
+
+    sum_arr_level_2();
+
+    vec();
+    vec_fun();
+
+    string_types();
+
+    string_manip();
+
+    print_array();
+
+    cmd_line_arg();
 }
 
 fn variable() {
@@ -191,7 +208,119 @@ fn vector() {
     v.push(10);
     v.push(20);
     v.push(30);
-
+ 
     let first = v[0];
     let maybe_first = v.get(0);
+
+    println!("v is {:?}", v);
+    println!("first is {}", first);
+    println!("maybe_first is {:?}", maybe_first);
+}
+
+fn vector_slice() {
+    let mut v = Vec::new();
+    v.push(10);
+    v.push(20);
+    v.push(30);
+
+    dump(&v);
+
+    let slice = &v[1..];
+    println!("slice is {:?}", slice);
+
+    
+}
+
+fn dump(arr: &[i32]) {
+    println!("arr is {:?}", arr);
+}
+
+fn iterator() {
+    let arr = [10, 20, 30];
+
+    for i in arr {
+        println!("{}", i);
+    }
+}
+
+fn sum_arr_level_2(){
+    let sum: i32 = (0..5).sum();
+    println!("Sum was {}", sum);
+
+    let sum: i64 = [10, 20, 30].iter().sum();
+    println!("Sum was {}", sum);
+}
+
+fn vec() {
+    let mut v1 = vec![10,20,30,40];
+    v1.pop();
+
+    let mut v2 = Vec::new();
+    v2.push(10);
+    v2.push(20);
+    v2.push(30);
+
+    assert_eq!(v1, v2);
+
+    v2.extend(0..2);
+    assert_eq!(v2, &[10,20,30,0,1]);
+}
+
+fn vec_fun() {
+    let mut v1 = vec![1,10,5,1,2,11,2,40];
+    v1.sort();
+    v1.dedup();
+    assert_eq!(v1, &[1, 2, 5, 10, 11, 40]);
+}
+
+fn dump_string(s: &str) {
+    println!("Str '{}'", s);
+}
+
+fn string_types() {
+    let text = "hello!"; // string slice
+    let s = text.to_string(); //allocated string
+
+    dump_string(text);
+    dump_string(&s);
+}
+
+fn string_manip() {
+    let mut s = String::new();
+    s.push('H');
+    s.push_str("ello");
+    s.push(' ');
+    s += "World!";
+    s.pop();
+
+    assert_eq!(s, "Hello World");
+
+    let mut _text = "test";  //fails because this is &str not &String
+    // text.push('!');
+    // assert_eq!(text, "test!");
+}
+
+fn array_to_str(arr: &[i32]) -> String {
+    let mut res = '['.to_string();
+
+    for v in arr {
+        res += &v.to_string();
+        res.push(',');
+    }
+    res.pop();
+    res.push(']');
+    res
+}
+
+fn print_array() {
+    let arr = array_to_str(&[10, 20, 30]);
+    let result = format!("hello {}", arr);
+
+    assert_eq!(result, "hello [10,20,30]");
+}
+
+fn cmd_line_arg() {
+    for arg in std::env::args() {
+        println!("'{}'", arg);
+    }
 }
